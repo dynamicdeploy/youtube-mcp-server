@@ -1,4 +1,4 @@
-import { Server } from '@modelcontextprotocol/sdk/server';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
     CallToolRequestSchema,
@@ -22,7 +22,7 @@ export async function startMcpServer() {
     const server = new Server(
         {
             name: 'zubeid-youtube-mcp-server',
-            version: '1.0.0',
+            version: '1.0.1',
         },
         {
             capabilities: {
@@ -257,9 +257,9 @@ export async function startMcpServer() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
     
-    // Log the server info
-    console.log(`YouTube MCP Server v1.0.0 started successfully`);
-    console.log(`Server will validate YouTube API key when tools are called`);
+    // Log the server info to stderr (stdout is reserved for MCP protocol)
+    console.error(`YouTube MCP Server v1.0.1 started successfully`);
+    console.error(`Server will validate YouTube API key when tools are called`);
     
     return server;
 }

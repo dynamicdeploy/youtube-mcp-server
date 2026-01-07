@@ -1,21 +1,20 @@
-FROM node:16-alpine
+FROM node:20-slim
 
+# Set working directory
 WORKDIR /app
 
 # Copy package files first for better caching
 COPY package*.json ./
+COPY tsconfig.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy application code
-COPY . .
+# Copy application source code
+COPY src ./src
 
 # Build the application
 RUN npm run build
 
-# Set execution permission for CLI
-RUN chmod +x dist/cli.js
-
-# Command is provided by smithery.yaml
-CMD ["node", "dist/index.js"]
+# Use the CLI entry point (which is the proper entry point for MCP servers)
+ENTRYPOINT ["node", "dist/cli.js"]
